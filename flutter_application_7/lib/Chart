@@ -1,0 +1,80 @@
+/*import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+/*final FirebaseFirestore firestore = FirebaseFirestore.instance;
+ final String userId = FirebaseAuth.instance.currentUser!.uid;
+Future<List<double>> fetchFirestoreData() async {
+  List<double> dataPoints = [];
+
+  QuerySnapshot querySnapshot = await firestore.collection('Patient').doc(userId).collection('Glycémie').get();
+
+  querySnapshot.docs.forEach((doc) {
+    double dataPoint = doc.data()['mesure'];
+    dataPoints.add(dataPoint);
+  });
+
+  return dataPoints;
+}
+*/
+
+class ChartScreen extends StatefulWidget {
+  @override
+  _ChartScreenState createState() => _ChartScreenState();
+}
+
+class _ChartScreenState extends State<ChartScreen> {
+  List<double> dataPoints = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    List<double> fetchedData = await fetchFirestoreData();
+    setState(() {
+      dataPoints = fetchedData;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Courbe Firestore'),
+      ),
+      body: Container(
+        child: charts.LineChart(
+          _createChartData(),
+          animate: true,
+        ),
+      ),
+    );
+  }
+
+  List<charts.Series<ChartData, int>> _createChartData() {
+    List<ChartData> chartData = [];
+
+    for (int i = 0; i < dataPoints.length; i++) {
+      chartData.add(ChartData(i, dataPoints[i]));
+    }
+
+    return [
+      charts.Series<ChartData, int>(
+        id: 'Courbe Firestore',
+        domainFn: (ChartData data, _) => data.index,
+        measureFn: (ChartData data, _) => data.value,
+        data: chartData,
+      ),
+    ];
+  }
+}
+
+class ChartData {
+  final int index;
+  final double value;
+
+  ChartData(this.index, this.value);
+}
+*/
